@@ -1,0 +1,21 @@
+- name: Install Apache and Mysql on ec2
+  hosts: webservers
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: Install latest version of Apache
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Install mysql db
+      apt: name=mysql-server update_cache=yes state=latest
+
+  handlers:
+    - name: restart-apache
+      service:
+        name: apache2
+        state: start
+    - name: start-mysql
+      service:
+        name: mysql
+        state: start
