@@ -70,23 +70,6 @@
         mode: "0755"
         recurse: yes
 
-    # - name: setting special directory permissions
-    #   file:
-    #     path: "/var/www/html/suitecrm/cache"
-    #     owner: www-data
-    #     group: www-data
-    #     state: directory
-    #     mode:
-    #       "0775"
-    #       # [
-    #       #   "/var/www/html/suitecrm/cache",
-    #       #   /var/www/html/suitecrm/custom",
-    #       #   /var/www/html/suitecrm/modules",
-    #       #   "/var/www/html/suitecrm/themes",
-    #       #   "/var/www/html/suitecrm/data",
-    #       #   "/var/www/html/suitecrm/upload",
-    #       # ]
-
     - name: setting custom directory permissions
       file:
         path: "/var/www/html/suitecrm/custom"
