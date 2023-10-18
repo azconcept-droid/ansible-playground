@@ -1,0 +1,156 @@
+- name: Install LAMP and launching suitecrm
+  hosts: webserver
+  gather_facts: False
+  become: yes
+
+  tasks:
+    - name: Install latest version of Apache
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Install mysql db
+      apt: name=mysql-server update_cache=yes state=latest
+
+    - name: Install php
+      apt: name=php update_cache=yes state=latest
+
+    - name: Install php-cli
+      apt: name=php-cli update_cache=yes state=latest
+
+    - name: Install php-common
+      apt: name=php-common update_cache=yes state=latest
+
+    - name: Install php-curl
+      apt: name=php-curl update_cache=yes state=latest
+
+    - name: Install php-mbstring
+      apt: name=php-mbstring update_cache=yes state=latest
+
+    - name: Install php-gd
+      apt: name=php-gd update_cache=yes state=latest
+
+    - name: Install php-mysql
+      apt: name=php-mysql update_cache=yes state=latest
+
+    - name: Install php-soap
+      apt: name=php-soap update_cache=yes state=latest
+
+    - name: Install php-xml
+      apt: name=php-xml update_cache=yes state=latest
+
+    - name: Install php-imap
+      apt: name=php-imap update_cache=yes state=latest
+
+    - name: Install php-intl
+      apt: name=php-intl update_cache=yes state=latest
+
+    - name: Install php-json
+      apt: name=php-json update_cache=yes state=latest
+
+    - name: Install zip
+      apt: name=zip update_cache=yes state=latest
+
+    - name: Install php-bcmath
+      apt: name=php-bcmath update_cache=yes state=latest
+
+    - name: Install php-opcache
+      apt: name=php-opcache update_cache=yes state=latest
+
+    - name: Install php-mysqli
+      apt: name=php-mysqli update_cache=yes state=latest
+
+    - name: Install php-pdo
+      apt: name=php-pdo update_cache=yes state=latest
+
+    - name: Create document root for domain
+      file:
+        path: "/var/www/html/{{ http_host }}/"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0755"
+        recurse: yes
+
+    # - name: setting special directory permissions
+    #   file:
+    #     path: "/var/www/html/suitecrm/cache"
+    #     owner: www-data
+    #     group: www-data
+    #     state: directory
+    #     mode:
+    #       "0775"
+    #       # [
+    #       #   "/var/www/html/suitecrm/cache",
+    #       #   /var/www/html/suitecrm/custom",
+    #       #   /var/www/html/suitecrm/modules",
+    #       #   "/var/www/html/suitecrm/themes",
+    #       #   "/var/www/html/suitecrm/data",
+    #       #   "/var/www/html/suitecrm/upload",
+    #       # ]
+
+    - name: setting custom directory permissions
+      file:
+        path: "/var/www/html/suitecrm/custom"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0775"
+
+    - name: setting modules permissions
+      file:
+        path: "/var/www/html/suitecrm/modules"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0775"
+
+    - name: setting themes directory permissions
+      file:
+        path: "/var/www/html/suitecrm/themes"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0775"
+
+    - name: setting data directory permissions
+      file:
+        path: "/var/www/html/suitecrm/data"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0775"
+
+    - name: setting upload directory permissions
+      file:
+        path: "/var/www/html/suitecrm/upload"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0775"
+
+    - name: setting upload directory permissions
+      file:
+        path: "config_override.php 2>/dev/null"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0775"
+
+    - name: Set up virtuahHost
+      template:
+        src: "./apache-config.conf"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+
+    - name: Enable site
+      command: a2ensite suitecrm.conf
+      notify: restart-apache
+
+  handlers:
+    - name: restart-apache
+      service:
+        name: apache2
+        state: restarted
+    - name: start-mysql
+      service:
+        name: mysql
+        state: start
+        enabled: true
