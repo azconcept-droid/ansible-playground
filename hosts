@@ -1,0 +1,10 @@
+[webserver]
+<put ec2 server ip here> ansible_ssh_user=ubuntu http_conf=suitecrm.conf
+#alpha.example.org
+#beta.example.org
+#192.168.1.100
+#192.168.1.110
+
+[webserver:vars]
+http_host=suitecrm
+http_port=80
