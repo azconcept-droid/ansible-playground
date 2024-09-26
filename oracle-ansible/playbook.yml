@@ -1,0 +1,37 @@
+---
+- name: Install Oracle Database on Oracle Linux
+  hosts: oracle-linux
+  become: true
+  become_user: vascon
+  tasks:
+    - name: Install required packages
+      ansible.builtin.yum:
+        name:
+          - oracle-database-preinstall-19c
+          - oracle-database-ee-19c
+        state: present
+
+    - name: Create Oracle user and groups (if not using preinstall)
+      ansible.builtin.user:
+        name: oracle
+        state: present
+        groups: oinstall,dba
+
+    - name: Extract Oracle Database Software
+      ansible.builtin.unarchive:
+        src: ~/LINUX.X64_193000_db_home.zip
+        dest: /opt/oracle/product/19c/dbhome_1
+        remote_src: yes
+
+    - name: Run Oracle Database Installer (silent mode)
+      ansible.builtin.command:
+        cmd: "/opt/oracle/database/runInstaller -silent -responseFile /opt/oracle/product/19c/dbhome_1/db_install.rsp"
+        creates: /etc/oratab
+      environment:
+        ORACLE_HOME: "/opt/oracle/product/19c/dbhome_1"
+        ORACLE_SID: "orcl"
+
+    - name: Run root scripts
+      ansible.builtin.shell: |
+        /opt/oracle/product/19c/dbhome_1/root.sh
+      become: true
