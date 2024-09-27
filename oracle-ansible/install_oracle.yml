@@ -3,9 +3,5 @@
   hosts: oracle-linux
   become: true
   become_user: vascon
-  tasks:
-    - name: Example task using opitzconsulting.ansible_oracle
-      opitzconsulting.ansible_oracle.:
-        parameter_1: value
-        parameter_2: value
-        
+  roles:
+    - opitzconsulting.ansible_oracle.oraswdb_install
