@@ -30,3 +30,10 @@ ansible-playbook -i inventory web-db.yml -vvv
 ansible-playbook -i inventory web-db.yml -vvvv
 ansible-playbook -i inventory web-db.yml --syntax-check # syntax check
 ansible-playbook -i inventory web-db.yml -C # dry run
+
+sudo vim /etc/hostname # put control has hostname
+sudo hostname control # and run this command
+
+## db setup on centos
+yum search | grep -i mysql
+ansible-galaxy collection install community.mysql
