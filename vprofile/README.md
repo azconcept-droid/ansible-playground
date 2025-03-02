@@ -37,3 +37,9 @@ sudo hostname control # and run this command
 ## db setup on centos
 yum search | grep -i mysql
 ansible-galaxy collection install community.mysql
+
+## ansible cli vars
+ansible-playbook -e USRNM=cliuser -e COMM=cliuser vars_precedence.yaml
+
+## ansible gather facts
+ansible -m setup [web01]
