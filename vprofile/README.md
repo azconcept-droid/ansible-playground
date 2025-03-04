@@ -43,3 +43,7 @@ ansible-playbook -e USRNM=cliuser -e COMM=cliuser vars_precedence.yaml
 
 ## ansible gather facts
 ansible -m setup [web01]
+
+## ntp conf agent
+/etc/ntpsec/ntp.conf # ubuntu
+/etc/ntp.conf # centos
