@@ -47,3 +47,6 @@ ansible -m setup [web01]
 ## ntp conf agent
 /etc/ntpsec/ntp.conf # ubuntu
 /etc/ntp.conf # centos
+
+## Roles in ansible
+:%s/^    // to replace 4 spaces from the beggining in vim
